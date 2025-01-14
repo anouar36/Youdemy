@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ ."../../../vendor/autoload.php";
+require_once __DIR__ ."/../../../vendor/autoload.php";
 
 use App\Config\Db;
 use App\Controllers\Authlogin;
@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
 
 
 ?>
-<?php include_once __DIR__.'/heder_footer/header.php';?>
+<?php include_once __DIR__.'../../heder_footer/header.php';?>
 <div class="font-[sans-serif]">
       <div class="grid lg:grid-cols-2 md:grid-cols-2 items-center gap-4">
         <div class="max-md:order-1 h-screen min-h-full">
@@ -30,7 +30,8 @@ if(isset($_POST['submit'])){
         <form  action="" method="post" class="max-w-xl w-full p-6 mx-auto">
           <div class="mb-12">
             <h3 class="text-gray-800 text-4xl font-extrabold">Sign in</h3>
-            <p class="text-gray-800 text-sm mt-6">Don't have an account <a href="javascript:void(0);" class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">Register here</a></p>
+
+            <p class="text-gray-800 text-sm mt-6">Don't have an account <a href="\src\views\auth\register.php" class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">Register here</a></p>
           </div>
 
     <?php if($erorr != ''): ?>
@@ -131,7 +132,7 @@ if(isset($_POST['submit'])){
         </form>
       </div>
     </div>
-<?php include_once __DIR__.'/heder_footer/footer.php'?>
+<?php include_once __DIR__.'../../heder_footer/footer.php'?>
 
 
 

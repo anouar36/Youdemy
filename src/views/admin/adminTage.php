@@ -28,7 +28,7 @@
                         <!-- BASIC LINK -->
                         <a href="#" class="block py-2.5 px-4 flex items-center space-x-2 bg-gray-800 text-white hover:bg-gray-800 hover:text-white rounded">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>Dashboard</span>
+                            <span>Tages</span>
                         </a>
                         <!-- DROPDOWN LINK -->
                         <div class="block" x-data="{open: false}">
@@ -41,10 +41,10 @@
                                 <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
                             </div>
                             <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
-                                <a href="#" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
+                                <a href="\src\views\admin\administrateur.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Dashboard
                                 </a>
-                                <a href="\src\Views\admin\adminTage.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
+                                <a href="\src\Views\admin\viewsTag.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Tages
                                 </a>
                                 <a href="\src\views\admin\adminCategories.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -83,7 +83,7 @@
             </div>
             <section class="max-w-7xl mx-auto py-4 px-5">
                 <div class="flex justify-between items-center border-b border-gray-300">
-                    <h1 class="text-2xl font-semibold pt-2 pb-6">Dashboard</h1>
+                    <h1 class="text-2xl font-semibold pt-2 pb-6">Tages</h1>
                 </div>
 
                 <!-- STATISTICS -->
@@ -139,41 +139,38 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Project</th>
+                            <th class="py-3 px-6 text-left">Project</th>
                                 <th class="py-3 px-6 text-left">Client</th>
                                 <th class="py-3 px-6 text-center">Users</th>
                                 <th class="py-3 px-6 text-center">Status</th>
-                                <th class="py-3 px-6 text-center">Actions</th>
+                                
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm">
-
+  
                             <?php
                              require_once("../../../vendor/autoload.php");
-                             use App\Controllers\AuthUsers;
-                             $candidat = new AuthUsers();
-                             $result = $candidat->desplayUsers();
+                             use App\Controllers\AuthTages;
+                             $candidat = new AuthTages();
+                             $result = $candidat->desplayTags();
                              if($result){
                                 foreach($result as $row){
                             ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                      <?= $row->getRole() ?>
-                                    </div>
-                                </td>
+        
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
                                         <div class="mr-2">
                                             <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
                                         </div>
-                                        <span><?= $row->getUsername() ?></span>
+                                        <span><?= $row->getNameTage() ?></span>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                <?= $row->getEmail() ?>
+                                <?= $row->getId()?>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"> <?= $row->getEmail() ?></span>
+                                    <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"> </span>
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">

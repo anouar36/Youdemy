@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+
 use App\Classes\User;
 use App\Config\Db;
 use PDO;
@@ -9,10 +10,7 @@ class UserModel{
     private $conn;
 
     public function __construct(){
-
-
         $this->conn = Db::connect();
-
     }
 
     public function findUserByEmailAndPassword($email,$password){
@@ -38,20 +36,20 @@ class UserModel{
 
     }
     public function getDataUsers(){
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM `users` WHERE 1";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execut();
+        $stmt->execute();
 
-        $rows = fetchAll(PDO::FETCH_ASSOC);
+        $rows =$stmt->fetchAll(PDO::FETCH_ASSOC);
         $Users=[];
         if($rows){
             foreach($rows as $row){
-                $Users[] = new Users($row['id'],$row['username'],$row["email"],$row["password"],$row["role"]);
-
+                $Users[] = new User($row['id'],$row['username'],$row["email"],$row["password"],$row["role"]);
             }
             return $Users; 
-        }
+        }else
+        return false;  
     }
     
 
