@@ -51,9 +51,28 @@ class UserModel{
         }else
         return false;  
     }
+
+
+    public function addUser($username,$email,$password,$role){
+        
+        
+        $sql="INSERT INTO users (username,email,password,role)
+              VALUES(:username,:email,:password,:role)";
+
+
+        $stmt= $this->conn->prepare($sql);
+        $stmt->bindParam(":username",$username);
+        $stmt->bindParam(":email", $email );
+        $stmt->bindParam(":password",$password);
+        $stmt->bindParam(":role",$role);
+        $row=$stmt->execute();
     
+        if($row==false){
+            return false;
+        }else{
+            return true;
+        }
 
-
-
+    }
 }
 ?>

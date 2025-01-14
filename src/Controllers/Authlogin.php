@@ -15,13 +15,13 @@ class Authlogin {
          $resulte   = $UserModel->findUserByEmailAndPassword($email,$password);
          if($resulte != false) {
             if($resulte->getRole()=='Administrateur'){
-                header('Location: ../views/admin/Administrateur.php');
+                header('Location:../../views/admin/Administrateur.php');
 
             }else if ($resulte->getRole()=='Etudiant') {
-                header('Location: ../views/etudiant/etudiant.php');
+                header('Location:../../views/etudiant/etudiant.php');
 
             }else if ($resulte->getRole()=='Enseignant'){
-                header('Location:../views/enseignant/enseignant.php');
+                header('Location:../../views/enseignant/enseignant.php');
             }
          }
 

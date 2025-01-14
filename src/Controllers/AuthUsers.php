@@ -14,8 +14,7 @@ class AuthUsers{
          }else{
             return false;
          }
-
-
     } 
+    
 }
 ?>
