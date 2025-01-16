@@ -10,7 +10,7 @@ abstract class Db {
 
     private static $password = 'anwar36flow';
 
-    private static $dsn = 'mysql:host=192.168.1.76;dbname=Youdemy;charset=utf8';
+    private static $dsn = 'mysql:host=192.168.1.183;dbname=Youdemy;charset=utf8';
 
     public static $affected_row;
     

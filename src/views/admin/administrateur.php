@@ -1,3 +1,23 @@
+
+<?php
+require_once __DIR__ ."/../../../vendor/autoload.php";
+use App\Controllers\Authadmin;
+
+if(isset($_POST['delet'])){
+    $idUsre = $_POST['user_id'];
+    $deletUser = new Authadmin();
+    $deletUser->delet($idUsre);
+   
+}
+
+// if(isset($_POST['update'])){
+//     $idUsre = $_POST['user_id'];
+//     $updatUser = new Authadmin();
+//     $updatUser->update($idUsre);
+    
+// }
+?>
+
 <?php include_once __DIR__.'../../heder_footer/header.php';?>
     <div class="flex relative" x-data="{navOpen: false}">
         <!-- NAV -->
@@ -62,7 +82,7 @@
                         <img src="https://ui-avatars.com/api/?name=Habib+Mhamadi&size=128&background=ff4433&color=fff" class="w-7 w-7 rounded-full" alt="Profile">
                         <h1>Habib Mhamadi</h1>
                     </div>
-                    <a onclick="event.preventDefault(); document.getElementById('logoutForm').submit()" href="#" class="hover:bg-gray-800 hover:text-white p-2 rounded">
+                    <a href="\src\views\auth\login.php" class="hover:bg-gray-800 hover:text-white p-2 rounded">
                         <form id="logoutForm" action="" method="POST"></form>
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>            
                         </form>
@@ -175,25 +195,34 @@
                                 <td class="py-3 px-6 text-center">
                                     <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"> <?= $row->getEmail() ?></span>
                                 </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
+                                <td class="py-3 px-6   flex justify-evenly text-center">
+                                    <!-- First Button -->
+                                    <a href="\src\views\admin\adminModificationUser.php?id=<?= $row->getId()?>">
+                                                <div class="w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                   <input type="hidden" name="user_id">
+                                                    <button type="update" name="update" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </a>
+                                            
+
+
+                                    <form action="" method="POST" class="inline">
+                                        <div class="flex items-center space-x-4">
+                                            <!-- Second Button -->
+                                            <div class="w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                <input type="hidden" name="user_id" value="<?= $row->getId() ?>">
+                                                <button type="delet" name="delet" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
-                                        </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </td>
                             </tr>
                             <?php

@@ -1,4 +1,30 @@
-<?php include_once __DIR__.'../../heder_footer/header.php';?>
+<?php
+require_once __DIR__ ."/../../../vendor/autoload.php";
+use App\Controllers\Authadmin;
+
+if (isset($_POST['ajoute'])) {
+    if (empty($_POST['nameTag']) ) {
+        $error = ' error ';
+    } else {
+            $nameTag = $_POST['nameTag'];
+            $addtag = new Authadmin();
+            $addtag->addTag($nameTag);
+    }
+}
+
+if (isset($_GET['id'])) {
+    if (empty($_GET['id']) ) {
+        $error = ' error ';
+    } else {
+            $idDelet = $_GET['id'];
+            $deletTage = new Authadmin();
+            $deletTage->deletTag($idDelet);
+    }
+}
+
+
+?>
+<?php include_once __DIR__ . '../../heder_footer/header.php'; ?>
     <div class="flex relative" x-data="{navOpen: false}">
         <!-- NAV -->
         <nav class="absolute md:relative w-64 transform -translate-x-full md:translate-x-0 h-screen overflow-y-scroll bg-black transition-all duration-300" :class="{'-translate-x-full': !navOpen}">
@@ -44,7 +70,7 @@
                                 <a href="\src\views\admin\administrateur.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Dashboard
                                 </a>
-                                <a href="\src\Views\admin\viewsTag.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
+                                <a href="#" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
                                     Tages
                                 </a>
                                 <a href="\src\views\admin\adminCategories.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
@@ -85,7 +111,19 @@
                 <div class="flex justify-between items-center border-b border-gray-300">
                     <h1 class="text-2xl font-semibold pt-2 pb-6">Tages</h1>
                 </div>
+                <form action="" method="post">
+                    <div>
+                        <div>
+                            <label for="nameTag" class="block text-sm font-medium text-gray-700">name Tag:</label>
+                            <input type="text" id="nameTag" value="" name="nameTag" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    <div>
+                    </div>
+                        <button type="submit" name="ajoute" class="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600">add tag</button>
+                    </div>
 
+                </form>
+                
                 <!-- STATISTICS -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 py-6">
                     <div class="bg-white shadow rounded-sm flex justify-between items-center py-3.5 px-3.5">
@@ -143,66 +181,72 @@
                                 <th class="py-3 px-6 text-left">Client</th>
                                 <th class="py-3 px-6 text-center">Users</th>
                                 <th class="py-3 px-6 text-center">Status</th>
-                                
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm">
-  
                             <?php
-                             require_once("../../../vendor/autoload.php");
-                             use App\Controllers\AuthTages;
-                             $candidat = new AuthTages();
-                             $result = $candidat->desplayTags();
-                             if($result){
-                                foreach($result as $row){
-                            ?>
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-        
+                            require_once ('../../../vendor/autoload.php');
+
+                            use App\Controllers\AuthTages;
+
+                            $candidat = new AuthTages();
+                            $result = $candidat->desplayTags();
+                            if ($result) {
+                                foreach ($result as $row) {
+                                    ?>
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
                                         <div class="mr-2">
                                             <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
                                         </div>
-                                        <span><?= $row->getNameTage() ?></span>
+                                        <span><?= $row->getNameTage()?></span>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                <?= $row->getId()?>
+                                    <?= $row->getId() ?>
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"> </span>
                                 </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center">
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
+                                <td class="py-3 px-6 flex justify-center text-center">
+                                    <!-- First Button -->
+                                    <a href="\src\views\admin\adminModificationTags.php?id=<?= $row->getId() ?>">
+                                        <div class="w-4 mx-3 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                            <input type="hidden" name="user_id">
+                                            <button type="update" name="update" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                </svg>
+                                            </button>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
+                                    </a>
+                                    <a href="\src\views\admin\adminTage.php?id=<?= $row->getId()?>">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="w-4 mx-3 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                <input type="hidden" name="user_id" value="<?= $row->getId() ?>">
+                                                <button type="delet" name="delet" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110 cursor-pointer cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    </a>
+                                        
+                                    
                                 </td>
                             </tr>
                             <?php
                             }
-                        }else{
-                            echo('nothing to display');
-                        }
-                        ?>
+                            } else {
+                                echo ('nothing to display');
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </section>
         </main>
     </div>
-<?php include_once __DIR__.'../../heder_footer/footer.php'?>
+<?php include_once __DIR__ . '../../heder_footer/footer.php' ?>
