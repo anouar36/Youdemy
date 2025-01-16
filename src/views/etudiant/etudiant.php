@@ -6,7 +6,7 @@ $rows = $resulte->showCourses();
 
 if(isset($_GET['id'])){
     $idCourse = $_GET['id'];
-    new
+    new   
 }  
 ?>
 
