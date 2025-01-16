@@ -47,6 +47,53 @@ class CoursesModel{
         }else
         return false;  
     }
+
+    public function saveCourses($idEtud,$idCourse){
+        $sql=("INSERT INTO Course_Etudiant
+            (Course_Etudiant.Etudiant_id,Course_Etudiant.Course_id)
+             VALUES(:idEtud,:idCours)");
+
+        $stmt=$this->conn->prepare($sql);
+        $stmt->BindParam('idEtud',$idEtud);
+        $stmt->BindParam('idCours',$idCourse);
+        $Resulte=$stmt->execute();
+        if(!$Resulte)
+        return false;
+        else
+        return true;
+     }
+
+     public function desplaysHestorique(){
+        $sql= "SELECT 
+                Courses.id AS id,
+                Courses.title AS title,
+                Courses.description AS description,
+                Courses.content AS content,
+                GROUP_CONCAT(tags.tag_name) AS tag,
+                categories.categorie_name AS categorie
+                FROM  Courses
+                INNER JOIN Course_Etudiant ON Courses.id = Course_Etudiant.Course_id
+                INNER JOIN Etudiants ON Etudiants.id = Course_Etudiant.Etudiant_id
+                INNER JOIN categories ON Courses.categorie_id = categories.id
+                INNER JOIN Course_tag ON Courses.id = Course_tag.Course_id
+                INNER JOIN tags ON tags.id = Course_tag.tag_id  
+                WHERE 
+                    Etudiants.id = 1
+                GROUP BY
+                    Courses.id, categories.id";
+
+                $stmt=$this->conn->prepare($sql);
+                $stmt->execute();
+                 $rows=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                $couserH=[];
+                if(!$rows)
+                return false;
+                else
+                foreach($rows as $row){
+                    $couserH[]= new Course($row['id'], $row['title'] , $row['description'] , $row['content'] , $row['tag'] , $row['categorie']) ;
+            }
+                return $couserH;
+                     }
 }
 
   

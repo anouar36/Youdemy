@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+session_start();
 
 use App\Classes\User;
 use App\Config\Db;

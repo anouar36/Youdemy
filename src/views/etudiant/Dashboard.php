@@ -1,22 +1,10 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthEtudiants;
-session_start();
-$idEtud=$_SESSION['id'];
- 
+
 $resulte = new AuthEtudiants();
-$rows = $resulte->showCourses();
-
-
-if(isset($_GET['id'])){
-    $idCourse = $_GET['id'];
-    $resulte->EnrollNow($idEtud,$idCourse);
-}  
-
-
+$rows = $resulte->showHestorique();
 ?>
-
-
 
 <?php include_once __DIR__ . '../../heder_footer/header.php'; ?>
 <!-- Main Layout -->

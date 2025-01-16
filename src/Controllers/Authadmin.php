@@ -5,7 +5,7 @@ use App\Models\AdminModel;
 use App\Models\TageModel;
 use App\Models\CategorieModel;
 
-class Authadmin{
+class Authadmin{ 
  
     public function delet($idUsre){
     
@@ -40,10 +40,10 @@ class Authadmin{
             return $row;
         }   
     } 
-
+ 
     //update for Tges 
     public function checkeTges($idTage){
-        $getTage= new AdminModel();
+        $getTage= new TageModel();
         $row=$getTage->getTage($idTage);
         if(!$row){
             return false;

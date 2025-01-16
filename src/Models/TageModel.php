@@ -5,7 +5,7 @@ use App\Classes\Tages;
 use App\Config\Db;
 use PDO;
 use PDOException;
-
+ 
 class TageModel{
     private $conn;
 
@@ -45,7 +45,6 @@ class TageModel{
     //FOR UPDATE Tages
     public function getTage($idTage){
         $sql='SELECT * FROM tags WHERE id =:id';
-
         $stmt= $this->conn->prepare($sql);
         $stmt->bindParam(":id", $idTage);
         $stmt->execute();
@@ -56,6 +55,7 @@ class TageModel{
             return $row = new Tages('',$row['tag_name']);
         }
     }
+    
     public function insertUTage($idTage,$name){
         $sql='UPDATE tags SET tag_name=:name WHERE id=:id; ';
 
