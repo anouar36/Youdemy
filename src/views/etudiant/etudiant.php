@@ -8,7 +8,7 @@ if(isset($_GET['id'])){
     $idCourse = $_GET['id'];
     new   
 }  
-?>
+?>,,,,
 
 
 <?php include_once __DIR__ . '../../heder_footer/header.php'; ?>
