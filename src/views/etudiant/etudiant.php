@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthEtudiants;
 session_start();
-$idEtud=$_SESSION['id'];
+$idUser=$_SESSION['id'];
+
  
 $resulte = new AuthEtudiants();
 $rows = $resulte->showCourses();
@@ -10,8 +11,10 @@ $rows = $resulte->showCourses();
 
 if(isset($_GET['id'])){
     $idCourse = $_GET['id'];
-    $resulte->EnrollNow($idEtud,$idCourse);
+   
+    $resulte->EnrollNow($idCourse,$idUser);
 }  
+
 
 
 ?>
@@ -49,9 +52,9 @@ if(isset($_GET['id'])){
                 </h3>
                 <ul class="mt-2 space-y-2 pl-4">
                     <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
+                        <a href="\src\views\etudiant\Dashboard.php" class="text-gray-300 hover:text-yellow-500 flex items-center">
                             <i class="fas fa-tachometer-alt mr-2"></i> <!-- Icon for Dashboard -->
-                            Dashboard
+                            My Cours
                         </a>
                     </li>
                     <li>
@@ -140,7 +143,7 @@ if(isset($_GET['id'])){
                         <!-- Price and Button -->
                         <div class="flex justify-between items-center">
                             <p class="text-lg font-bold text-blue-600">$39.00</p>
-                            <a href="\src\views\etudiant\etudiant.php?=<?php echo ($row->getId());?>">
+                            <a href="\src\views\etudiant\etudiant.php?id=<?php echo($row->getId());?>">
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300">
                                     Enroll Now
                                 </button>

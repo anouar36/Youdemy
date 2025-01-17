@@ -18,23 +18,37 @@ class AuthEtudiants{
             return $resule;
         }  
     }  
+   
 
-    public function EnrollNow($idEtud,$idCourse){
+    public function EnrollNow($idCourse,$idUser){
+
         $EnrollNow = new CoursesModel();
-        $resule=$EnrollNow->saveCourses($idEtud,$idCourse);
+        $idEtud=$EnrollNow->getEtud($idUser)->getId();
+        $resule=$EnrollNow->saveCourses($idCourse,$idEtud);
         if(!$resule)
         return false;
         else
         return true;
     }
 
-    public function showHestorique(){
+    public function showHestorique($idUser){
         $EnrollNow = new CoursesModel();
-        $resule=$EnrollNow->desplaysHestorique();
+        $resulta=$EnrollNow->getEtud($idUser);
+        
+        $idEtud=$resulta->getId();
+    
+        $resule=$EnrollNow->desplaysHestorique($idEtud);
         if(!$resule)
         return false;
         else
         return $resule;
+    }
+    
+    public function deletCourse($idCours){
+        
+        $Delet = new CoursesModel();
+        $Delet->softeDelet($idCours);
+
     }
 }
 ?>

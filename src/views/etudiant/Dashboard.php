@@ -1,9 +1,17 @@
 <?php
 require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthEtudiants;
-
+session_start();
+$idUser = $_SESSION['id'];
 $resulte = new AuthEtudiants();
-$rows = $resulte->showHestorique();
+$rows = $resulte->showHestorique($idUser);
+
+if(isset($_GET['id'])){
+    $idCours = $_GET['id'];
+   
+    $deletCours= new  AuthEtudiants();
+    $deletCours->deletCourse($idCours);
+}
 ?>
 
 <?php include_once __DIR__ . '../../heder_footer/header.php'; ?>
@@ -12,7 +20,7 @@ $rows = $resulte->showHestorique();
     <!-- Sidebar -->
     <aside class="bg-blue-900 shadow-md w-64 min-h-screen p-4">
         <!-- Logo -->
-        <a href="/src/views/etudiant/etudiant.php">
+        <a href="">
             <div class="text-xl font-bold text-yellow-500 mb-8 flex items-center">
                 <i class="fas fa-graduation-cap mr-2"></i> <!-- Icon for Logo -->
                 SIMPLON
@@ -23,10 +31,13 @@ $rows = $resulte->showHestorique();
         <nav class="space-y-6">
             <!-- Accueil -->
             <div>
-                <h3 class="text-lg font-semibold text-white flex items-center">
-                    <i class="fas fa-home mr-2"></i> <!-- Icon for Accueil -->
-                    Accueil
-                </h3>
+                <a href="/src/views/etudiant/etudiant.php">
+                    <h3 class="text-lg font-semibold text-white flex items-center">
+                        <i class="fas fa-home mr-2"></i> <!-- Icon for Accueil -->
+                        Accueil
+                    </h3>
+                </a>
+                
             </div>
 
             <!-- Promotion Section -->
@@ -39,7 +50,7 @@ $rows = $resulte->showHestorique();
                     <li>
                         <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
                             <i class="fas fa-tachometer-alt mr-2"></i> <!-- Icon for Dashboard -->
-                            Dashboard
+                            My Cours
                         </a>
                     </li>
                     <li>
@@ -96,9 +107,17 @@ $rows = $resulte->showHestorique();
 
         <!-- Course Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <?php foreach($rows as $row): ?>
+            <?php foreach ($rows as $row): ?>
                 <!-- Course Card -->
-                <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 transition-transform duration-300">
+                <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 transition-transform duration-300 relative group">
+                    <!-- Delete Icon (Top-Right Corner) -->
+                    <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <a href="\src\views\etudiant\Dashboard.php?id=<?php echo ($row->getId()); ?>" class="text-red-500 hover:text-red-700 transition-colors duration-300">
+                            <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
+                        </a>
+                    </div>
+
+                    <!-- Course PDF -->
                     <iframe 
                         src="https://api.baytalhikma2.org/api/v1/storages/66a7d5984d15f.pdf" 
                         class="w-full h-64" 
@@ -115,8 +134,8 @@ $rows = $resulte->showHestorique();
 
                         <!-- Tags -->
                         <div class="flex flex-wrap gap-2 mt-2 mb-4">
-                            <?php foreach(explode(',', $row->getTages()) as $tag): ?>
-                            <span class="bg-gray-100 text-gray-700 px-2 py-1 text-xs rounded"><?php echo (trim($tag)); ?></span>
+                            <?php foreach (explode(',', $row->getTages()) as $tag): ?>
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 text-xs rounded"><?php echo (trim($tag)); ?></span>
                             <?php endforeach; ?>
                         </div>
 
@@ -128,16 +147,15 @@ $rows = $resulte->showHestorique();
                         <!-- Price and Button -->
                         <div class="flex justify-between items-center">
                             <p class="text-lg font-bold text-blue-600">$39.00</p>
-                            <a href="\src\views\etudiant\etudiant.php?=<?php echo ($row->getId());?>">
+                            <a href="\src\views\etudiant\etudiant.php?=<?php echo ($row->getId()); ?>">
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300">
                                     Enroll Now
                                 </button>
                             </a>
-                            
                         </div>
                     </div>
                 </div>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </main>
 </div>

@@ -4,27 +4,36 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthEnseignant;
 
 session_start();
-$idEtud = $_SESSION['id'];
+$userid = $_SESSION['id'];
+
 $resulte = new AuthEnseignant();
 
 $rowsTags = $resulte->getTages();
 $rowsCategories = $resulte->getCategories();
-// var_dump($rowsCategories);
+
 
 // exit;
 if (isset($_POST['submit'])) {
     $tags = $_POST['tags'];
-    if (empty($_POST['title']) || empty($_POST['url']) || empty($_POST['description']) || empty($_POST['tags']) || empty($_POST['category']));
+    if (empty($_POST['title']) || empty($_POST['url']) || empty($_POST['description']) || empty($_POST['tags']) || empty($_POST['category'])){
+        return false;
+    }else{
+        $title = $_POST['title'];
+        $url = $_POST['url'];
+        $description = $_POST['description'];
+        $idtags = $_POST['tags'];
+        $idcategory = $_POST['category'];
+        $resulte->pushCours($title, $url, $description, $userid, $idtags,$idcategory);
+    }
 
-    $title = $_POST['title'];
-    $url = $_POST['url'];
-    $description = $_POST['description'];
-    $idtags = $_POST['tags'];
-    $category = $_POST['category'];
+    
+
+    
+
+
 }
 
-// if(isset($_POST['submit'])){
-// }
+
 ?>
 
 <?php include_once __DIR__ . '../../heder_footer/header.php'; ?>
@@ -167,13 +176,12 @@ if (isset($_POST['submit'])) {
                         <label for="category" class="block text-gray-700 font-semibold mb-2">
                             <i class="fas fa-folder-open text-blue-900 mr-2"></i>Category
                         </label>
-                        <select id="category" name="category" required
+                        <select id="category" name="category" 
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
                             <?
                             foreach ($rowsCategories as $row) {
-                                print_r($row);
                                 ?>
-                            <option value="<? $row->getNameCategorie() ?>" disabled selected><? $row->getNameCategorie() ?></option>
+                            <option value="<? echo $row->getId()?>" ><? echo $row->getNameCategorie() ?></option>
                             <? } ?>
                             
                         </select>
