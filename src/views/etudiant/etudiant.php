@@ -12,7 +12,7 @@ $rows = $resulte->showCourses();
 
 if (isset($_GET['id'])) {
     $idCourse = $_GET['id'];
-    $resulte->EnrollNow($idCourse, $idUser);
+    $resulte->EnrollNow($idCourse, $idUser)
 }
 $currentPage=1;
 $totalPages=12;
