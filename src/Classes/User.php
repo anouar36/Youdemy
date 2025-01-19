@@ -2,6 +2,7 @@
 namespace App\Classes;
 
 
+
   class User{
 
     private $id;

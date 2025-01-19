@@ -12,7 +12,7 @@ class Course {
     
     public function __construct($id, $title, $description, $content, $tages, $categories) {
         $this->id = $id;
-        $this->title = $title;
+        $this->title = $title; 
         $this->description = $description;
         $this->content = $content;
         $this->tages = $tages;

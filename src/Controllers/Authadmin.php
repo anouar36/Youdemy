@@ -53,7 +53,7 @@ class Authadmin{
     } 
 
     public function updateTag($idtage,$nameTag){
-        $getTage= new AdminModel();
+        $getTage= new TageModel();
         $row = $getTage->insertUTage($idtage,$nameTag);
         if(!$row){
             return false;

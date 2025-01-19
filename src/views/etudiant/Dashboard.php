@@ -3,12 +3,15 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthEtudiants;
 session_start();
 $idUser = $_SESSION['id'];
+
+
+
 $resulte = new AuthEtudiants();
 $rows = $resulte->showHestorique($idUser);
 
+
 if(isset($_GET['id'])){
     $idCours = $_GET['id'];
-   
     $deletCours= new  AuthEtudiants();
     $deletCours->deletCourse($idCours);
 }
@@ -18,85 +21,43 @@ if(isset($_GET['id'])){
 <!-- Main Layout -->
 <div class="flex">
     <!-- Sidebar -->
-    <aside class="bg-blue-900 shadow-md w-64 min-h-screen p-4">
+    <aside class="bg-gradient-to-b from-blue-800 to-blue-900 shadow-lg w-72 min-h-screen p-6 text-white">
         <!-- Logo -->
-        <a href="">
-            <div class="text-xl font-bold text-yellow-500 mb-8 flex items-center">
-                <i class="fas fa-graduation-cap mr-2"></i> <!-- Icon for Logo -->
-                SIMPLON
-            </div>
+        <a href="/src/views/etudiant/etudiant.php" class="block mb-10 text-2xl font-bold text-yellow-500">
+            <i class="fas fa-graduation-cap mr-3"></i> SIMPLON
         </a>
 
         <!-- Navigation Links -->
         <nav class="space-y-6">
-            <!-- Accueil -->
             <div>
-                <a href="/src/views/etudiant/etudiant.php">
-                    <h3 class="text-lg font-semibold text-white flex items-center">
-                        <i class="fas fa-home mr-2"></i> <!-- Icon for Accueil -->
-                        Accueil
+                <h3 class="text-xl font-semibold flex items-center text-gray-900">
+                    <i class="fas fa-home mr-3"></i> My courses
+                </h3>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold flex items-center">
+                    <i class="fa-solid fa-border-all mr-2"></i> Pages
+                </h3>
+                <ul class="mt-3 space-y-3 pl-6">
+                    <li><a href="\src\views\etudiant\Dashboard.php" class="hover:text-yellow-400 flex items-center"><i class="fas fa-tachometer-alt mr-3"></i> My Courses</a></li>
+                    <li><a href="\src\views\etudiant\etudiant.php" class="hover:text-yellow-400 flex items-center"><i class="fas fa-book-open mr-3"></i> All Courses</a></li>
+                    <li><a href="#" class="hover:text-yellow-400 flex items-center"><i class="fas fa-briefcase mr-3"></i>My exercice </a></li>
+                    <li><a href="#" class="hover:text-yellow-400 flex items-center"><i class="fas fa-folder-open mr-3"></i>My accente</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <a href="\src\views\auth\login.php">
+                    <h3 class="hover:text-yellow-400 text-xl font-semibold flex items-center">
+                        <i class="fa-solid fa-person-walking mr-3"></i> Out
                     </h3>
                 </a>
                 
             </div>
-
-            <!-- Promotion Section -->
-            <div>
-                <h3 class="text-lg font-semibold text-white flex items-center">
-                    <i class="fas fa-users mr-2"></i> <!-- Icon for Promotion -->
-                    Promotion
-                </h3>
-                <ul class="mt-2 space-y-2 pl-4">
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-tachometer-alt mr-2"></i> <!-- Icon for Dashboard -->
-                            My Cours
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-book-open mr-2"></i> <!-- Icon for Educational Scenarios -->
-                            Educational Scenarios
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-briefcase mr-2"></i> <!-- Icon for Promo Briefs -->
-                            Promo Briefs
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-folder-open mr-2"></i> <!-- Icon for Resources -->
-                            Resources
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-file-upload mr-2"></i> <!-- Icon for Submissions -->
-                            Submissions
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Tracking Section -->
-            <div>
-                <h3 class="text-lg font-semibold text-white flex items-center">
-                    <i class="fas fa-chart-line mr-2"></i> <!-- Icon for Tracking -->
-                    Tracking
-                </h3>
-                <ul class="mt-2 space-y-2 pl-4">
-                    <li>
-                        <a href="#" class="text-gray-300 hover:text-yellow-500 flex items-center">
-                            <i class="fas fa-user-cog mr-2"></i> <!-- Icon for Profile Settings -->
-                            Profile Settings
-                        </a>
-                    </li>
-                </ul>
-            </div>
         </nav>
     </aside>
+
 
     <!-- Main Content -->
     <main class="flex-1 p-8">
@@ -107,7 +68,8 @@ if(isset($_GET['id'])){
 
         <!-- Course Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php foreach ($rows as $row): ?>
+         <?php if($rows){
+            foreach ($rows as $row): ?>
                 <!-- Course Card -->
                 <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 transition-transform duration-300 relative group">
                     <!-- Delete Icon (Top-Right Corner) -->
@@ -119,11 +81,10 @@ if(isset($_GET['id'])){
 
                     <!-- Course PDF -->
                     <iframe 
-                        src="https://api.baytalhikma2.org/api/v1/storages/66a7d5984d15f.pdf" 
+                        src="<?php echo ($row->getContent()); ?>" 
                         class="w-full h-64" 
                         allowfullscreen>
                     </iframe>
-
                     <!-- Course Details -->
                     <div class="p-4">
                         <!-- Category -->
@@ -156,6 +117,26 @@ if(isset($_GET['id'])){
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php }else{?>
+                <!-- Error State: No Courses Available -->
+                <div class="flex flex-col items-center justify-center h-full p-8 bg-gray-50 rounded-lg">
+                    <!-- Icon -->
+                    <i class="fas fa-folder-open text-6xl text-gray-400 mb-4"></i> <!-- Folder icon for no courses -->
+                    
+                    <!-- Message -->
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">No Courses Available</h3>
+                    <p class="text-gray-600 text-center">
+                        It looks like you haven't enrolled in any courses yet. <br>
+                        Explore our catalog and start learning today!
+                    </p>
+
+                    <!-- Call-to-Action Button -->
+                    <a href="\src\views\etudiant\etudiant.php" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                        Browse Courses
+                    </a>
+                </div>
+                <?php }?>
+                
         </div>
     </main>
 </div>

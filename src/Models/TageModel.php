@@ -57,6 +57,7 @@ class TageModel{
     }
     
     public function insertUTage($idTage,$name){
+        
         $sql='UPDATE tags SET tag_name=:name WHERE id=:id; ';
 
         $stmt= $this->conn->prepare($sql);

@@ -1,96 +1,62 @@
-
 <?php
+session_start();
 require_once __DIR__ ."/../../../vendor/autoload.php";
 use App\Controllers\Authadmin;
+
 
 if(isset($_POST['delet'])){
     $idUsre = $_POST['user_id'];
     $deletUser = new Authadmin();
     $deletUser->delet($idUsre);
-   
 }
+
+
 
 // if(isset($_POST['update'])){
 //     $idUsre = $_POST['user_id'];
 //     $updatUser = new Authadmin();
 //     $updatUser->update($idUsre);
-    
 // }
 ?>
 
 <?php include_once __DIR__.'../../heder_footer/header.php';?>
     <div class="flex relative" x-data="{navOpen: false}">
         <!-- NAV -->
-        <nav class="absolute md:relative w-64 transform -translate-x-full md:translate-x-0 h-screen overflow-y-scroll bg-black transition-all duration-300" :class="{'-translate-x-full': !navOpen}">
-            <div class="flex flex-col justify-between h-full">
-                <div class="p-4">
-                    <!-- LOGO -->
-                    <a class="flex items-center text-white space-x-4" href="">
-                        <svg class="w-7 h-7 bg-indigo-600 rounded-lg p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                        <span class="text-2xl font-bold">Better Code</span>
-                    </a>
+        <aside class="bg-gradient-to-b from-blue-800 to-blue-900 shadow-lg w-72 min-h-screen p-6 text-white">
+            <!-- Logo -->
+            <a href="/src/views/etudiant/etudiant.php" class="block mb-10 text-2xl font-bold text-yellow-500">
+                <i class="fas fa-graduation-cap mr-3"></i> SIMPLON
+            </a>
 
-                    <!-- SEARCH BAR -->
-                    <div class="border-gray-700 py-5 text-white border-b rounded">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </div>
-                            <form action="" method="GET">
-                                <input type="search" class="w-full py-2 rounded pl-10 bg-gray-800 border-none focus:outline-none focus:ring-0" placeholder="Search">
-                            </form>
-                        </div>
-                        <!-- SEARCH RESULT -->
-                    </div>
-
-                    <!-- NAV LINKS -->
-                    <div class="py-4 text-gray-400 space-y-1">
-                        <!-- BASIC LINK -->
-                        <a href="#" class="block py-2.5 px-4 flex items-center space-x-2 bg-gray-800 text-white hover:bg-gray-800 hover:text-white rounded">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>Dashboard</span>
-                        </a>
-                        <!-- DROPDOWN LINK -->
-                        <div class="block" x-data="{open: false}">
-                            <div @click="open = !open" class="flex items-center justify-between hover:bg-gray-800 hover:text-white cursor-pointer py-2.5 px-4 rounded">
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                                    <span>Content</span>
-                                </div>
-                                <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>    
-                            </div>
-                            <div x-show="open" class="text-sm border-l-2 border-gray-800 mx-6 my-2.5 px-2.5 flex flex-col gap-y-1">
-                                <a href="#" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
-                                    Dashboard
-                                </a>
-                                <a href="\src\Views\admin\adminTage.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
-                                    Tages
-                                </a>
-                                <a href="\src\views\admin\adminCategories.php" class="block py-2 px-4 hover:bg-gray-800 hover:text-white rounded">
-                                    Categories
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Navigation Links -->
+            <nav class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold flex items-center text-gray-900">
+                        <i class="fas fa-book-open mr-3"></i> My Course
+                    </h3>
                 </div>
 
-                <!-- PROFILE -->
-                <div class="text-gray-200 border-gray-800 rounded flex items-center justify-between p-2">
-                    <div class="flex items-center space-x-2">
-                        <!-- AVATAR IMAGE BY FIRST LETTER OF NAME -->
-                        <img src="https://ui-avatars.com/api/?name=Habib+Mhamadi&size=128&background=ff4433&color=fff" class="w-7 w-7 rounded-full" alt="Profile">
-                        <h1>Habib Mhamadi</h1>
-                    </div>
-                    <a href="\src\views\auth\login.php" class="hover:bg-gray-800 hover:text-white p-2 rounded">
-                        <form id="logoutForm" action="" method="POST"></form>
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>            
-                        </form>
-                    </a>
+                <div>
+                    <h3 class="text-xl font-semibold flex items-center">
+                        <i class="fa-solid fa-border-all mr-3"></i> Pages
+                    </h3>
+                    <ul class="mt-3 space-y-3 pl-6">
+                        <li><a href="#" class="hover:text-yellow-400 flex items-center"><i class="fa-solid fa-folder-plus mr-3"></i>Users</a></li>
+                        <li><a href="\src\views\admin\adminTage.php" class="hover:text-yellow-400 flex items-center"><i class="fas fa-book-open mr-3"></i>Tags</a></li>
+                        <li><a href="\src\views\admin\adminCategories.php" class="hover:text-yellow-400 flex items-center"><i class="fas fa-briefcase mr-3"></i>Categorise </a></li>
+                        <li><a href="#" class="hover:text-yellow-400 flex items-center"><i class="fas fa-folder-open mr-3"></i>My accente</a></li>
+                    </ul>
                 </div>
 
-            </div>
-        </nav>
+                <div>
+                    <a href="\src\Controllers\AuthLogout.php">
+                        <h3 class="hover:text-yellow-400 text-xl font-semibold flex items-center">
+                            <i class="fa-solid fa-person-walking mr-3"></i> Out
+                        </h3>
+                    </a>
+                </div>
+            </nav>
+        </aside>
         <!-- END OF NAV -->
 
         <!-- PAGE CONTENT -->
@@ -155,85 +121,68 @@ if(isset($_POST['delet'])){
                 <!-- END OF STATISTICS -->
                 
                 <!-- TABLE -->
-                <div class="bg-white shadow rounded-sm my-2.5 overflow-x-auto">
-                    <table class="min-w-max w-full table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Project</th>
-                                <th class="py-3 px-6 text-left">Client</th>
-                                <th class="py-3 px-6 text-center">Users</th>
-                                <th class="py-3 px-6 text-center">Status</th>
-                                <th class="py-3 px-6 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm">
-
-                            <?php
-                             require_once("../../../vendor/autoload.php");
-                             use App\Controllers\AuthUsers;
-                             $candidat = new AuthUsers();
-                             $result = $candidat->desplayUsers();
-                             if($result){
-                                foreach($result as $row){
-                            ?>
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                      <?= $row->getRole() ?>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <div class="mr-2">
-                                            <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
-                                        </div>
-                                        <span><?= $row->getUsername() ?></span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                <?= $row->getEmail() ?>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs"> <?= $row->getEmail() ?></span>
-                                </td>
-                                <td class="py-3 px-6   flex justify-evenly text-center">
-                                    <!-- First Button -->
-                                    <a href="\src\views\admin\adminModificationUser.php?id=<?= $row->getId()?>">
-                                                <div class="w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                                   <input type="hidden" name="user_id">
-                                                    <button type="update" name="update" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                        </svg>
-                                                    </button>
+                <form action="process_selected_user.php" method="POST">
+                    <div class="bg-white shadow rounded-sm my-2.5 overflow-x-auto">
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Role</th>
+                                    <th class="py-3 px-6 text-left">Username</th>
+                                    <th class="py-3 px-6 text-left">Email</th>
+                                    <th class="py-3 px-6 text-left">Status</th> 
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm">
+                                <?php
+                                require_once("../../../vendor/autoload.php");
+                                use App\Controllers\AuthUsers;
+                                $candidat = new AuthUsers();
+                                $result = $candidat->desplayUsers();
+                                if($result){
+                                    foreach($result as $row){
+                                ?>
+                                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                        <!-- Role -->
+                                        <td class="py-3 px-6 text-left">
+                                            <?= $row->getRole() ?>
+                                        </td>
+                                        <!-- Username -->
+                                        <td class="py-3 px-6 text-left">
+                                            <div class="flex items-center">
+                                                <div class="mr-2">
+                                                    <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
                                                 </div>
-                                            </a>
-                                            
-
-
-                                    <form action="" method="POST" class="inline">
-                                        <div class="flex items-center space-x-4">
-                                            <!-- Second Button -->
-                                            <div class="w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                                <input type="hidden" name="user_id" value="<?= $row->getId() ?>">
-                                                <button type="delet" name="delet" class="flex items-center justify-center w-4 transform hover:text-purple-500 hover:scale-110 cursor-pointer">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
+                                                <span><?= $row->getUsername() ?></span>
                                             </div>
-                                        </div>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php
-                            }
-                        }else{
-                            echo('nothing to display');
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
+                                        </td>
+                                        <!-- Email -->
+                                        <td class="py-3 px-6 text-left">
+                                            <?= $row->getEmail() ?>
+                                        </td>
+                                        <!-- Block/Unblock Dropdown -->
+                                        <td class="py-3 px-6 text-left">
+                                            <select name="user_status[<?= $row->getId() ?>]" class="form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+                                                <option value="unblock">Unblock</option>
+                                                <option value="block">Block</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo '<tr><td colspan="4" class="py-3 px-6 text-center">No users found.</td></tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Action Buttons -->
+                    <div class="mt-4">
+                        <button type="submit" name="action" value="update_status" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            Update Status
+                        </button>
+                    </div>
+                </form>
             </section>
         </main>
     </div>

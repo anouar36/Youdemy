@@ -19,7 +19,7 @@ class CoursesModel
 
     public function getCourses()
     {
-        $sql = 'SELECT 
+        $sql = "SELECT 
                         Courses.title as title,
                         Courses.id  as id,
                         Courses.description  as description,
@@ -34,8 +34,9 @@ class CoursesModel
                             Course_tag ON Courses.id = Course_tag.Course_id
                         INNER JOIN 
                             tags ON Course_tag.tag_id = tags.id
+                            WHERE  Courses.Deleted = 'false'
                         GROUP BY 
-                        Courses.id , tags.id ,categories.id,Course_tag.id';
+                        Courses.id  ,categories.id";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -53,8 +54,7 @@ class CoursesModel
 
     public function getCoursesEn($idEns)
     {
-        
-        $sql = 'SELECT 
+        $sql = "SELECT 
                 Courses.title as title,
                 Courses.id  as id,
                 Courses.description  as description,
@@ -69,9 +69,9 @@ class CoursesModel
                     Course_tag ON Courses.id = Course_tag.Course_id
                 INNER JOIN 
                     tags ON Course_tag.tag_id = tags.id
-                    WHERE Courses.enseignant_id=:idEns
+                    WHERE Courses.enseignant_id=:idEns and Courses.Deleted = 'false'
                 GROUP BY 
-                Courses.id , tags.id ,categories.id,Course_tag.id;';
+                Courses.id  ,categories.id;";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam('idEns', $idEns);
@@ -82,6 +82,7 @@ class CoursesModel
         if ($rows) {
             foreach ($rows as $row) {
                 $Courses[] = new Course($row['id'], $row['title'], $row['description'], $row['content'], $row['tag_name'], $row['categorie_name']);
+               
             }
             return $Courses;
         } else
@@ -90,6 +91,7 @@ class CoursesModel
 
     public function saveCourses($idCourse, $idEtud)
     {
+        
         $sql = ("INSERT INTO Course_Etudiant
             (Course_Etudiant.Etudiant_id,Course_Etudiant.Course_id,Course_Etudiant.Deleted)
              VALUES(:idEtud,:idCours,'false')");
@@ -123,7 +125,7 @@ class CoursesModel
             Etudiants.id = :idEtudeient and  Course_Etudiant.Deleted = 'false'
         GROUP BY
             Courses.id;";
-
+ 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam('idEtudeient', $idEtud);
         $stmt->execute();
@@ -155,12 +157,14 @@ class CoursesModel
 
     public function getEtud($idUser)
     {
+        
         $sql = 'SELECT Etudiants.id as id FROM Etudiants WHERE Etudiants.user_id = :iduser;';
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam('iduser', $idUser);
+        $stmt->bindParam(':iduser',$idUser);
         $stmt->execute();
         $resulte = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         if (!$resulte) {
             return false;
         } else {
@@ -170,8 +174,9 @@ class CoursesModel
 
     public function InsertCours($title, $url, $description, $enseignant_id, $idcategory)
     {
-        $sql = 'INSERT INTO Courses (title, description, content, enseignant_id, categorie_id) VALUES
-        (:title, :description, :content, :enseignant_id, :categorie_id)';
+        $sql = 'INSERT INTO Courses (title, description, content, enseignant_id, categorie_id) 
+                VALUES (:title, :description, :content, :enseignant_id, :categorie_id);';
+
         $stmt = $this->conn->prepare($sql);
 
         $stmt->BindParam('title', $title);
@@ -227,6 +232,86 @@ class CoursesModel
         $stmt->execute();
 
         return true;
+    }
+
+    public function DeletCours($idCours, $idEns)
+    {
+        $sql = "UPDATE Courses SET Courses.Deleted = 'true' WHERE  Courses.id = :course_id and Courses.enseignant_id=:id_endeignants";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':course_id', $idCours);
+        $stmt->bindParam(':id_endeignants', $idEns);
+        $stmt->execute();
+
+        return true;
+    }
+
+    public function GetDataOfTheCours($ideCours)
+    {
+        $sql = 'SELECT 
+                Courses.title as title,
+                Courses.id  as id,
+                Courses.description  as description,
+                Courses.content  as content,
+                categories.id  as idcategorie,
+                GROUP_CONCAT(tags.id)as idtag
+                FROM 
+                    Courses
+                INNER JOIN 
+                    categories ON Courses.categorie_id = categories.id
+                INNER JOIN 
+                    Course_tag ON Courses.id = Course_tag.Course_id
+                INNER JOIN 
+                    tags ON Course_tag.tag_id = tags.id
+                    WHERE Courses.id =:course_id
+                GROUP BY 
+                Courses.id  ,categories.id';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':course_id',$ideCours);
+        $stmt->execute();
+        $resulte = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$resulte) {
+            return false;
+        } else {
+            
+            return $couseUpdat = new Course($resulte['id'], $resulte['title'], $resulte['description'], $resulte['content'], $resulte['idtag'], $resulte['idcategorie']);
+        }
+    }
+
+    public function update($idCours,$title, $url, $description ,$idcategory){
+        $sql = "UPDATE Courses SET title = :title , content = :content , description= :description,
+        categorie_id=:categorie_id WHERE Courses.id=:idCours";
+        
+        $stmt=$this->conn->prepare($sql);
+        $stmt->bindParam(':idCours',$idCours);
+        $stmt->bindParam(':title',$title);
+        $stmt->bindParam(':content',$url);
+        $stmt->bindParam(':description',$description);
+        $stmt->bindParam(':categorie_id',$idcategory);
+        $result=$stmt->execute();
+         if(!$result){
+            return false;
+         }else{
+            return true;
+         }
+    }
+    public function UpDateTages($idCours,$idtags){
+        $sql = 'UPDATE Course_tag SET tag_id =:tag_id WHERE Course_id=:Course_id;';
+
+        $stmt=$this->conn->prepare($sql);
+        foreach($idtags as $tag){
+          $stmt->bindParam(':tag_id',$tag);
+          $stmt->bindParam(':Course_id',$idCours);
+          $resultUpdateTag=$stmt->execute();    
+        }
+        if(!$resultUpdateTag){
+            return false;
+        }else{
+            return true;
+        }
+
+
     }
 }
 
